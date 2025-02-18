@@ -30,17 +30,18 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
       // Example pricing logic:
       int videoDurationFactor = (selectedDuration == 30) ? 1 : 2;
       subtotal = months1 * months2 * videoDurationFactor;
-      
+
       // Simple discount logic (10% off for now)
-      discount = (subtotal * 0.10).toInt(); 
-      
+      discount = (subtotal * 0.10).toInt();
+
       // Calculate total price after discount
       totalPrice = subtotal - discount;
     });
   }
 
   List<Widget> getSteps() => [
-        _buildStepContent('Enter your Ad Campaign Name', 'Enter Ad Campaign Name*'),
+        _buildStepContent(
+            'Enter your Ad Campaign Name', 'Enter Ad Campaign Name*'),
         // Only one step, add both Set Months directly below each other
         Column(
           children: [
@@ -61,7 +62,7 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
             _buildSelectVideoDuration(), // Add Select Video Duration section
             const SizedBox(height: 18),
             const Divider(),
-             const SizedBox(height: 14),
+            const SizedBox(height: 14),
             _buildSubtotal(), // Add Subtotal section
             const SizedBox(height: 12),
             _buildDiscount(), // Add Discount section
@@ -73,13 +74,13 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
         _buildVerificationStep(),
       ];
 
-  Widget _buildSetMonthsLayout(String title, int months, Function(int) onChanged) {
+  Widget _buildSetMonthsLayout(
+      String title, int months, Function(int) onChanged) {
     return Padding(
       padding: const EdgeInsets.only(left: 42, right: 42, top: 42),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           Text(
             title,
             textAlign: TextAlign.left,
@@ -109,12 +110,11 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(21, 30),
-                  backgroundColor:  const Color(0xFFF1F1F1),
+                  backgroundColor: const Color(0xFFF1F1F1),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
-
                 child: const Text(
                   '-',
                   style: TextStyle(
@@ -164,6 +164,7 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
 
   Widget _buildDateFields() {
     return Padding(
+      //adding: const EdgeInsets.only(left: 42, right: 42),
       padding: const EdgeInsets.only(left: 42, right: 42),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,8 +184,7 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
                       ),
                     ),
                     Container(
-                      height: 22,
-                   
+                      height: 32,
                       child: TextButton(
                         onPressed: () {
                           // TODO: Implement date picker
@@ -204,7 +204,6 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
                                 fontSize: 14,
                               ),
                             ),
-                          
                           ],
                         ),
                       ),
@@ -213,14 +212,17 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
                 ),
               ),
               const SizedBox(width: 20),
-              const Text('-',style: TextStyle(fontSize: 54,fontWeight: FontWeight.w100,color: Colors.black),),
+              const Text(
+                '-',
+                style: TextStyle(
+                    fontSize: 54,
+                    fontWeight: FontWeight.w100,
+                    color: Colors.black),
+              ),
               const SizedBox(width: 20),
               Expanded(
                 child: Column(
-                  
                   crossAxisAlignment: CrossAxisAlignment.start,
-
-
                   children: [
                     const Text(
                       'End Date',
@@ -231,8 +233,7 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
                       ),
                     ),
                     Container(
-                      height:22,
-                      
+                      height: 32,
                       child: TextButton(
                         onPressed: () {
                           // TODO: Implement date picker
@@ -252,7 +253,6 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
                                 fontSize: 14,
                               ),
                             ),
-                            
                           ],
                         ),
                       ),
@@ -273,7 +273,6 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           Text(
             'Select Video Duration',
             textAlign: TextAlign.left,
@@ -306,7 +305,7 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(21, 30),
-                  backgroundColor: selectedDuration == 30 
+                  backgroundColor: selectedDuration == 30
                       ? const Color(0xFF0171BB)
                       : const Color(0xFFF1F1F1),
                   shape: RoundedRectangleBorder(
@@ -332,7 +331,7 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(21, 30),
-                  backgroundColor: selectedDuration == 60 
+                  backgroundColor: selectedDuration == 60
                       ? const Color(0xFF0171BB)
                       : const Color(0xFFF1F1F1),
                   shape: RoundedRectangleBorder(
@@ -360,7 +359,6 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
       padding: const EdgeInsets.only(left: 42, right: 42),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
         children: [
           Text(
             'Subtotal:',
@@ -388,7 +386,6 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
       padding: const EdgeInsets.only(left: 42, right: 42),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
         children: [
           Text(
             'Discount:',
@@ -407,8 +404,6 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
             ),
           ),
         ],
-
-
       ),
     );
   }
@@ -419,7 +414,6 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-
           Text(
             'Total Price:',
             style: const TextStyle(
@@ -517,7 +511,7 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
             borderType: BorderType.RRect,
             radius: const Radius.circular(10),
             child: Container(
-              width:  double.infinity,
+              width: double.infinity,
               height: 200,
               color: const Color(0xFFF5F5F5),
               child: Column(
@@ -559,7 +553,8 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
           ),
           const SizedBox(height: 20),
           Container(
-            padding: const EdgeInsets.only(left: 12, right: 12, top: 12, bottom: 12),
+            padding:
+                const EdgeInsets.only(left: 12, right: 12, top: 12, bottom: 12),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -584,8 +579,6 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
                 const SizedBox(height: 8),
                 _buildGuideline('Video Size Limit:\n 100 MB'),
                 const SizedBox(height: 12),
-
-
               ],
             ),
           ),
@@ -597,15 +590,14 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
   Widget _buildGuideline(String text) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
-      child: 
-          Text(
-            text,
-            style: const TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14,
-              color: Colors.black87,
-            ),
-          ),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontFamily: 'Poppins',
+          fontSize: 14,
+          color: Colors.black87,
+        ),
+      ),
     );
   }
 
@@ -615,7 +607,6 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           const Text(
             'Video Verification being\n Processed',
             textAlign: TextAlign.start,
@@ -623,22 +614,20 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
               fontFamily: 'Poppins',
               fontSize: 24,
               fontWeight: FontWeight.w500,
-              height: 36/24,
-              color:  Color(0xff082857),
+              height: 36 / 24,
+              color: Color(0xff082857),
             ),
           ),
           const SizedBox(height: 16),
-
           const Text(
             'Video Verification will take 1 - 24 hours.\nAfter successful verification, you may now\n then Pay and Run your Ads!',
             textAlign: TextAlign.start,
             style: TextStyle(
               fontFamily: 'Poppins',
               fontSize: 14,
-              height: 24/14,
+              height: 24 / 14,
               color: Colors.black87,
             ),
-
           ),
           const SizedBox(height: 60),
           Image.asset(
@@ -693,7 +682,7 @@ class _AdvertiseScreenState extends State<AdvertiseScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(steps.length, (index) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Container(
                         width: 15,
                         height: 15,
