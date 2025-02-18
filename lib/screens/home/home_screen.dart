@@ -6,6 +6,8 @@ import '../profile/profile_screen.dart';
 import '../advertise/advertise_screen.dart';
 import '../payment/payment_screen.dart';
 import '../statistics/ad_statistics_screen.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,7 +21,6 @@ class _HomeScreenState extends State<HomeScreen> {
   String _searchQuery = '';
   final _searchController = TextEditingController();
   AdStatus? _selectedStatus;
-
 
   Widget get _currentPage {
     switch (_selectedIndex) {
@@ -49,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: _selectedIndex == 0 
+      decoration: _selectedIndex == 0
           ? const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -63,28 +64,45 @@ class _HomeScreenState extends State<HomeScreen> {
           : null,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: _selectedIndex == 0 ? AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: const Text('Jeep Ads'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.filter_list),
-              onPressed: () => _showFilterBottomSheet(context),
-            ),
-            IconButton(
-              icon: const Icon(Icons.notifications),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const NotificationsScreen(),
+        extendBodyBehindAppBar: false,
+        appBar: _selectedIndex == 0
+            ? AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                surfaceTintColor: Colors.transparent,
+                shadowColor: Colors.transparent,
+                scrolledUnderElevation: 0,
+                systemOverlayStyle: const SystemUiOverlayStyle(
+                  statusBarColor: Colors.transparent,
+                  statusBarIconBrightness: Brightness.dark,
+                ),
+                title: const Text(
+                  'Ad Campaigns',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
                   ),
-                );
-              },
-            ),
-          ],
-        ) : null,
+                ),
+                actions: [
+                  IconButton(
+                    icon: const Icon(Icons.filter_list, color: Colors.white),
+                    onPressed: () => _showFilterBottomSheet(context),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.notifications, color: Colors.white),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const NotificationsScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              )
+            : null,
         body: Column(
           children: [
             if (_selectedIndex == 0)
@@ -122,7 +140,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             Expanded(
-              child: _currentPage,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    _currentPage,
+                  ],
+                ),
+              ),
             ),
           ],
         ),
@@ -143,9 +167,6 @@ class _HomeScreenState extends State<HomeScreen> {
               backgroundColor: const Color.fromARGB(221, 12, 9, 60),
               child: const Icon(Icons.add, color: Colors.white),
             ),
-
-
-
             const SizedBox(height: 4),
             const Text(
               'Advertise Now',
@@ -192,8 +213,8 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Icon(
                   icon,
-                  color: _selectedIndex == index 
-                      ? Theme.of(context).primaryColor 
+                  color: _selectedIndex == index
+                      ? Theme.of(context).primaryColor
                       : Colors.grey,
                 ),
                 if (index == 0)
@@ -201,8 +222,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Icon(
                       Icons.play_circle_outline,
                       size: 12,
-                      color: _selectedIndex == index 
-                          ? Theme.of(context).primaryColor 
+                      color: _selectedIndex == index
+                          ? Theme.of(context).primaryColor
                           : Colors.grey,
                     ),
                   ),
@@ -211,8 +232,8 @@ class _HomeScreenState extends State<HomeScreen> {
             Text(
               label,
               style: TextStyle(
-                color: _selectedIndex == index 
-                    ? Theme.of(context).primaryColor 
+                color: _selectedIndex == index
+                    ? Theme.of(context).primaryColor
                     : Colors.grey,
               ),
             ),
@@ -251,7 +272,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: ElevatedButton(
                         onPressed: () {
                           setState(() {
-                            _selectedStatus = _selectedStatus == status ? null : status;
+                            _selectedStatus =
+                                _selectedStatus == status ? null : status;
                           });
                           Navigator.pop(context);
                           this.setState(() {});
@@ -268,7 +290,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.only(left: 16),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [    
+                            children: [
                               Column(
                                 children: [
                                   Container(
@@ -300,8 +322,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
-                                      height: 16/14,
-                                      color: _selectedStatus == status 
+                                      height: 16 / 14,
+                                      color: _selectedStatus == status
                                           ? status.color
                                           : Colors.black,
                                     ),
@@ -312,7 +334,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
-                                      height: 12/20,
+                                      height: 12 / 20,
                                       color: Colors.grey[600],
                                     ),
                                   ),
@@ -353,7 +375,7 @@ class AdsPage extends StatefulWidget {
   final AdStatus? filterStatus;
 
   const AdsPage({
-    super.key, 
+    super.key,
     this.searchQuery = '',
     this.filterStatus,
   });
@@ -382,7 +404,6 @@ class _AdsPageState extends State<AdsPage> {
     ),
     AdCampaign(
       id: '2',
-
       title: 'Jeep Grand Cherokee Luxury Tour',
       thumbnailUrl: 'https://picsum.photos/200/301',
       status: AdStatus.pendingPayment,
@@ -395,11 +416,9 @@ class _AdsPageState extends State<AdsPage> {
       subtotal: 2500.00,
       discount: 250.00,
       months: 12,
-
     ),
     AdCampaign(
       id: '3',
-
       title: 'Jeep Compass City Drive',
       thumbnailUrl: 'https://picsum.photos/200/302',
       status: AdStatus.running,
@@ -410,13 +429,11 @@ class _AdsPageState extends State<AdsPage> {
       dateRange: 'Jan 01, 2024 - Feb 01, 2024',
       numberOfJeeps: 3,
       subtotal: 1000.00,
-
       discount: 100.00,
       months: 12,
     ),
     AdCampaign(
       id: '4',
-
       title: 'Jeep Gladiator Power Demo',
       thumbnailUrl: 'https://picsum.photos/200/303',
       status: AdStatus.running,
@@ -432,7 +449,6 @@ class _AdsPageState extends State<AdsPage> {
     ),
     AdCampaign(
       id: '5',
-
       title: 'Jeep Renegade Urban Adventure',
       thumbnailUrl: 'https://picsum.photos/200/304',
       status: AdStatus.running,
@@ -455,7 +471,7 @@ class _AdsPageState extends State<AdsPage> {
       units: 6000,
       budget: 2800.00,
       duration: '0:40',
-      dateRange: 'Jan 01, 2024 - Feb 01, 2024', 
+      dateRange: 'Jan 01, 2024 - Feb 01, 2024',
       numberOfJeeps: 3,
       subtotal: 2500.00,
       discount: 250.00,
@@ -463,7 +479,6 @@ class _AdsPageState extends State<AdsPage> {
     ),
     AdCampaign(
       id: '7',
-
       title: 'Jeep Wagoneer Luxury Experience',
       thumbnailUrl: 'https://picsum.photos/200/306',
       status: AdStatus.running,
@@ -483,7 +498,6 @@ class _AdsPageState extends State<AdsPage> {
       thumbnailUrl: 'https://picsum.photos/200/307',
       status: AdStatus.closed,
       transactionId: 'TRX-008',
-
       units: 3500,
       budget: 1200.00,
       duration: '0:25',
@@ -493,7 +507,6 @@ class _AdsPageState extends State<AdsPage> {
       discount: 120.00,
       months: 12,
     ),
-
     AdCampaign(
       id: '9',
       title: 'Jeep Patriot Family Tour',
@@ -508,7 +521,6 @@ class _AdsPageState extends State<AdsPage> {
       subtotal: 2000.00,
       discount: 200.00,
       months: 12,
-
     ),
     AdCampaign(
       id: '10',
@@ -527,7 +539,6 @@ class _AdsPageState extends State<AdsPage> {
     ),
     AdCampaign(
       id: '11',
-
       title: 'Jeep Grand Wagoneer Premium Showcase',
       thumbnailUrl: 'https://picsum.photos/200/310',
       status: AdStatus.processing,
@@ -540,7 +551,6 @@ class _AdsPageState extends State<AdsPage> {
       subtotal: 5500.00,
       discount: 550.00,
       months: 12,
-
     ),
     AdCampaign(
       id: '12',
@@ -551,7 +561,7 @@ class _AdsPageState extends State<AdsPage> {
       units: 5500,
       budget: 2300.00,
       duration: '0:45',
-      dateRange: 'Jan 01, 2024 - Feb 01, 2024', 
+      dateRange: 'Jan 01, 2024 - Feb 01, 2024',
       numberOfJeeps: 3,
       subtotal: 2300.00,
       discount: 230.00,
@@ -559,13 +569,12 @@ class _AdsPageState extends State<AdsPage> {
     ),
   ];
 
-
-
   List<AdCampaign> get _filteredAds {
     if (widget.searchQuery.isEmpty) return _allAds;
-    return _allAds.where((ad) => 
-      ad.title.toLowerCase().contains(widget.searchQuery.toLowerCase())
-    ).toList();
+    return _allAds
+        .where((ad) =>
+            ad.title.toLowerCase().contains(widget.searchQuery.toLowerCase()))
+        .toList();
   }
 
   @override
@@ -607,204 +616,210 @@ class _AdsPageState extends State<AdsPage> {
       );
     }
 
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemCount: _filteredAds.where((ad) {
-        final matchesSearch = ad.title.toLowerCase().contains(widget.searchQuery.toLowerCase());
-        final matchesFilter = widget.filterStatus == null || ad.status == widget.filterStatus;
+    return Column(
+      children: _filteredAds.where((ad) {
+        final matchesSearch =
+            ad.title.toLowerCase().contains(widget.searchQuery.toLowerCase());
+        final matchesFilter =
+            widget.filterStatus == null || ad.status == widget.filterStatus;
         return matchesSearch && matchesFilter;
-      }).length,
-      itemBuilder: (context, index) {
-        final filteredAds = _filteredAds.where((ad) {
-          final matchesSearch = ad.title.toLowerCase().contains(widget.searchQuery.toLowerCase());
-          final matchesFilter = widget.filterStatus == null || ad.status == widget.filterStatus;
-          return matchesSearch && matchesFilter;
-        }).toList();
-        final ad = filteredAds[index];
-        return InkWell(
-          onTap: () => _showActionBottomSheet(context, ad),
-          child: Card(
-            elevation: 4,
-            shadowColor: Colors.black.withOpacity(0.5),
-            margin: const EdgeInsets.only(bottom: 16),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: 12,
-                        height: 12,
-                        decoration: BoxDecoration(
-                          color: ad.status.color,
-                          shape: BoxShape.circle,
+      }).map((ad) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: InkWell(
+            onTap: () => _showActionBottomSheet(context, ad),
+            child: Card(
+              elevation: 4,
+              shadowColor: Colors.black.withOpacity(0.5),
+              margin: const EdgeInsets.only(bottom: 16),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 12,
+                          height: 12,
+                          decoration: BoxDecoration(
+                            color: ad.status.color,
+                            shape: BoxShape.circle,
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        ad.dateRange,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
+                        const SizedBox(width: 8),
+                        Text(
+                          ad.dateRange,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.network(
-                          ad.thumbnailUrl,
-                          width: 180,
-                          height: 130,
-                          fit: BoxFit.cover,
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.network(
+                            ad.thumbnailUrl,
+                            width: 180,
+                            height: 130,
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              ad.title,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                ad.title,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 4),
-                            Row(
-                              children: [
-                                Text(
-                                  'Status: ',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    color: Color (0xFF8C8C8C),
-                                    fontWeight: FontWeight.w500,
-                                    height: 11/14,
+                              const SizedBox(height: 4),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Status: ',
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: Color(0xFF8C8C8C),
+                                      fontWeight: FontWeight.w500,
+                                      height: 11 / 14,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  ad.status.label,
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    color: ad.status.color,
-                                    fontWeight: FontWeight.w400,
-                                    height: 11/13,
+                                  Text(
+                                    ad.status.label,
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: ad.status.color,
+                                      fontWeight: FontWeight.w400,
+                                      height: 11 / 13,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // Left Column
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                     const Text('Transaction ID:',
-                                     style: TextStyle(
-                                        fontSize: 11,
-                                        color: Color (0xFF222222),
-                                        fontWeight: FontWeight.w500,
-                                        height: 11/14,
-                                      ),
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(ad.transactionId,
-                                      style: const TextStyle(
-                                        fontSize: 10,
-                                        color: Color (0xFF8C8C8C),
-                                        fontWeight: FontWeight.w400,
-                                        height: 10/13,
-                                      ),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      const Text('Budget: ',
-                                      style: TextStyle(
-                                        fontSize: 11,
-
-                                        color: Color (0xFF222222),
-                                        fontWeight: FontWeight.w500,
-                                        height: 11/14,
-                                      ),
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text('PHP ${ad.budget.toStringAsFixed(2)}',
-                                      style: const TextStyle(
-                                        fontSize: 10,
-                                        color: Color (0xFF8C8C8C),
-                                        fontWeight: FontWeight.w400,
-                                        height: 10/13,
-                                      ),
-                                      ),
-                                    ],
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Left Column
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          'Transaction ID:',
+                                          style: TextStyle(
+                                            fontSize: 11,
+                                            color: Color(0xFF222222),
+                                            fontWeight: FontWeight.w500,
+                                            height: 11 / 14,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          ad.transactionId,
+                                          style: const TextStyle(
+                                            fontSize: 10,
+                                            color: Color(0xFF8C8C8C),
+                                            fontWeight: FontWeight.w400,
+                                            height: 10 / 13,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 10),
+                                        const Text(
+                                          'Budget: ',
+                                          style: TextStyle(
+                                            fontSize: 11,
+                                            color: Color(0xFF222222),
+                                            fontWeight: FontWeight.w500,
+                                            height: 11 / 14,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          'PHP ${ad.budget.toStringAsFixed(2)}',
+                                          style: const TextStyle(
+                                            fontSize: 10,
+                                            color: Color(0xFF8C8C8C),
+                                            fontWeight: FontWeight.w400,
+                                            height: 10 / 13,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                // Right Column
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const Text('Units: ',
-                                      style: TextStyle(
-                                        fontSize: 11,
-                                        color: Color (0xFF222222),
-                                        fontWeight: FontWeight.w500,
-                                        height: 11/14,
-                                      ),
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text('${ad.units}',
-                                      style: const TextStyle(
-                                        fontSize: 10,
-                                        color: Color (0xFF8C8C8C),
-                                        fontWeight: FontWeight.w400,
-                                        height: 10/13,
-                                      ),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      const Text('Duration: ',
-                                      style: TextStyle(
-                                        fontSize: 11,
-                                        color: Color (0xFF222222),
-                                        fontWeight: FontWeight.w500,
-                                        height: 11/14,
-                                      ),
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(ad.duration,
-                                      style: const TextStyle(
-                                        fontSize: 10,
-                                        color: Color (0xFF8C8C8C),
-                                        fontWeight: FontWeight.w400,
-                                        height: 10/13,
-                                      ),
-                                      ),
-                                    ],
+                                  // Right Column
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          'Units: ',
+                                          style: TextStyle(
+                                            fontSize: 11,
+                                            color: Color(0xFF222222),
+                                            fontWeight: FontWeight.w500,
+                                            height: 11 / 14,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          '${ad.units}',
+                                          style: const TextStyle(
+                                            fontSize: 10,
+                                            color: Color(0xFF8C8C8C),
+                                            fontWeight: FontWeight.w400,
+                                            height: 10 / 13,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 10),
+                                        const Text(
+                                          'Duration: ',
+                                          style: TextStyle(
+                                            fontSize: 11,
+                                            color: Color(0xFF222222),
+                                            fontWeight: FontWeight.w500,
+                                            height: 11 / 14,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          ad.duration,
+                                          style: const TextStyle(
+                                            fontSize: 10,
+                                            color: Color(0xFF8C8C8C),
+                                            fontWeight: FontWeight.w400,
+                                            height: 10 / 13,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         );
-      },
+      }).toList(),
     );
   }
 
@@ -840,7 +855,7 @@ class _AdsPageState extends State<AdsPage> {
                         builder: (context) => AdvertiseScreen(),
                       ),
                     );
-                  },  
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.black,
@@ -853,30 +868,32 @@ class _AdsPageState extends State<AdsPage> {
                     padding: const EdgeInsets.only(left: 16),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [    
+                      children: [
                         Column(
                           children: [
-                            Icon(Icons.edit, size: 40, color: Color(0xFFFF9000)),
+                            Icon(Icons.edit,
+                                size: 40, color: Color(0xFFFF9000)),
                           ],
                         ),
                         const SizedBox(width: 8),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Edit',
+                            Text(
+                              'Edit',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                height: 16/14,
+                                height: 16 / 14,
                               ),
                             ),
                             SizedBox(height: 4),
-                            Text('This is just to fill up space since copy isn\'t ready. ',
+                            Text(
+                              'This is just to fill up space since copy isn\'t ready. ',
                               style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                height: 12/20
-                              ),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  height: 12 / 20),
                             ),
                           ],
                         )
@@ -894,7 +911,7 @@ class _AdsPageState extends State<AdsPage> {
                       MaterialPageRoute(
                         builder: (context) => PaymentScreen(
                           totalAmount: ad.budget,
-                          campaign: ad,  // Pass the current ad campaign
+                          campaign: ad, // Pass the current ad campaign
                         ),
                       ),
                     );
@@ -911,29 +928,32 @@ class _AdsPageState extends State<AdsPage> {
                     padding: const EdgeInsets.only(left: 16),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [    
+                      children: [
                         Column(
                           children: [
-                            Icon(Icons.credit_card, size: 40, color: Color(0xFFFF9000)),
+                            Icon(Icons.credit_card,
+                                size: 40, color: Color(0xFFFF9000)),
                           ],
                         ),
                         const SizedBox(width: 8),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Pay Now!',
+                            Text(
+                              'Pay Now!',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                height: 16/14,
+                                height: 16 / 14,
                               ),
                             ),
                             SizedBox(height: 4),
-                            Text('Proceed to payment to start your campaign',
+                            Text(
+                              'Proceed to payment to start your campaign',
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400,
-                                height: 12/20,
+                                height: 12 / 20,
                                 color: Colors.grey[600],
                               ),
                             ),
@@ -943,7 +963,7 @@ class _AdsPageState extends State<AdsPage> {
                     ),
                   ),
                 ),
-                //RUNNING 
+                //RUNNING
               ] else if (ad.status == AdStatus.running) ...[
                 Row(
                   children: [
@@ -954,7 +974,8 @@ class _AdsPageState extends State<AdsPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AdStatisticsScreen(campaign: ad),
+                              builder: (context) =>
+                                  AdStatisticsScreen(campaign: ad),
                             ),
                           );
                         },
@@ -970,30 +991,32 @@ class _AdsPageState extends State<AdsPage> {
                           padding: const EdgeInsets.only(left: 16),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [    
+                            children: [
                               Column(
                                 children: [
-                                  Icon(Icons.visibility, size: 40, color: Color(0xFFFF9000)),
+                                  Icon(Icons.visibility,
+                                      size: 40, color: Color(0xFFFF9000)),
                                 ],
                               ),
                               const SizedBox(width: 8),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('View',
+                                  Text(
+                                    'View',
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
-                                      height: 16/14,
+                                      height: 16 / 14,
                                     ),
                                   ),
                                   SizedBox(height: 4),
-                                  Text('View campaign',
+                                  Text(
+                                    'View campaign',
                                     style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                      height: 12/20
-                                    ),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        height: 12 / 20),
                                   ),
                                 ],
                               )
@@ -1026,30 +1049,32 @@ class _AdsPageState extends State<AdsPage> {
                           padding: const EdgeInsets.only(left: 16),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [    
+                            children: [
                               Column(
                                 children: [
-                                  Icon(Icons.edit, size: 40, color: Color(0xFFFF9000)),
+                                  Icon(Icons.edit,
+                                      size: 40, color: Color(0xFFFF9000)),
                                 ],
                               ),
                               const SizedBox(width: 8),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Edit',
+                                  Text(
+                                    'Edit',
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
-                                      height: 16/14,
+                                      height: 16 / 14,
                                     ),
                                   ),
                                   SizedBox(height: 4),
-                                  Text('Edit campaign',
+                                  Text(
+                                    'Edit campaign',
                                     style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                      height: 12/20
-                                    ),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        height: 12 / 20),
                                   ),
                                 ],
                               )
@@ -1075,30 +1100,33 @@ class _AdsPageState extends State<AdsPage> {
                     padding: const EdgeInsets.only(left: 16),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [    
+                      children: [
                         Column(
                           children: [
-                            Icon(Icons.credit_card, size: 40, color: Colors.grey[600]),
+                            Icon(Icons.credit_card,
+                                size: 40, color: Colors.grey[600]),
                           ],
                         ),
                         const SizedBox(width: 8),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Pay Now!',
+                            Text(
+                              'Pay Now',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                height: 16/14,
+                                height: 16 / 14,
                                 color: Colors.grey[600],
                               ),
                             ),
                             SizedBox(height: 4),
-                            Text('This is just to fill up space since copy isn\'t ready. ',
+                            Text(
+                              'This is just to fill up space since copy isn\'t ready. ',
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400,
-                                height: 12/20,
+                                height: 12 / 20,
                                 color: Colors.grey[600],
                               ),
                             ),
@@ -1132,30 +1160,32 @@ class _AdsPageState extends State<AdsPage> {
                     padding: const EdgeInsets.only(left: 16),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [    
+                      children: [
                         Column(
                           children: [
-                            Icon(Icons.edit, size: 40, color: Color(0xFFFF9000)),
+                            Icon(Icons.edit,
+                                size: 40, color: Color(0xFFFF9000)),
                           ],
                         ),
                         const SizedBox(width: 8),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Edit',
+                            Text(
+                              'Edit',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                height: 16/14,
+                                height: 16 / 14,
                               ),
                             ),
                             SizedBox(height: 4),
-                            Text('This is just to fill up space since copy isn\'t ready. ',
+                            Text(
+                              'This is just to fill up space since copy isn\'t ready. ',
                               style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                height: 12/20
-                              ),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  height: 12 / 20),
                             ),
                           ],
                         )
@@ -1178,30 +1208,33 @@ class _AdsPageState extends State<AdsPage> {
                     padding: const EdgeInsets.only(left: 16),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [    
+                      children: [
                         Column(
                           children: [
-                            Icon(Icons.credit_card, size: 40, color: Colors.grey[600]),
+                            Icon(Icons.credit_card,
+                                size: 40, color: Colors.grey[600]),
                           ],
                         ),
                         const SizedBox(width: 8),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Pay Now',
+                            Text(
+                              'Pay Now',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                height: 16/14,
+                                height: 16 / 14,
                                 color: Colors.grey[600],
                               ),
                             ),
                             SizedBox(height: 4),
-                            Text('This is just to fill up space since copy isn\'t ready. ',
+                            Text(
+                              'This is just to fill up space since copy isn\'t ready. ',
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400,
-                                height: 12/20,
+                                height: 12 / 20,
                                 color: Colors.grey[600],
                               ),
                             ),
@@ -1222,7 +1255,7 @@ class _AdsPageState extends State<AdsPage> {
                         builder: (context) => AdvertiseScreen(),
                       ),
                     );
-                  },  
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.black,
@@ -1235,30 +1268,32 @@ class _AdsPageState extends State<AdsPage> {
                     padding: const EdgeInsets.only(left: 16),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [    
+                      children: [
                         Column(
                           children: [
-                            Icon(Icons.edit, size: 40, color: Color(0xFFFF9000)),
+                            Icon(Icons.edit,
+                                size: 40, color: Color(0xFFFF9000)),
                           ],
                         ),
                         const SizedBox(width: 8),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Edit',
+                            Text(
+                              'Edit',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                height: 16/14,
+                                height: 16 / 14,
                               ),
                             ),
                             SizedBox(height: 4),
-                            Text('This is just to fill up space since copy isn\'t ready. ',
+                            Text(
+                              'This is just to fill up space since copy isn\'t ready. ',
                               style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                height: 12/20
-                              ),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  height: 12 / 20),
                             ),
                           ],
                         )
@@ -1281,31 +1316,33 @@ class _AdsPageState extends State<AdsPage> {
                     padding: const EdgeInsets.only(left: 16),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [    
+                      children: [
                         Column(
                           children: [
-                            Icon(Icons.credit_card, size: 40, color: Colors.grey[600]),
+                            Icon(Icons.credit_card,
+                                size: 40, color: Colors.grey[600]),
                           ],
                         ),
                         const SizedBox(width: 8),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Pay Now!',
+                            Text(
+                              'Pay Now!',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                height: 16/14,
+                                height: 16 / 14,
                                 color: Colors.grey[600],
-
                               ),
                             ),
                             SizedBox(height: 4),
-                            Text('This is just to fill up space since copy isn\'t ready. ',
+                            Text(
+                              'This is just to fill up space since copy isn\'t ready. ',
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400,
-                                height: 12/20,
+                                height: 12 / 20,
                                 color: Colors.grey[600],
                               ),
                             ),
@@ -1334,30 +1371,32 @@ class _AdsPageState extends State<AdsPage> {
                     padding: const EdgeInsets.only(left: 16),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [    
+                      children: [
                         Column(
                           children: [
-                            Icon(Icons.refresh, size: 40, color: Color(0xFFFF9000)),
+                            Icon(Icons.refresh,
+                                size: 40, color: Color(0xFFFF9000)),
                           ],
                         ),
                         const SizedBox(width: 8),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Run Again',
+                            Text(
+                              'Run Again',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                height: 16/14,
+                                height: 16 / 14,
                               ),
                             ),
                             SizedBox(height: 4),
-                            Text('This is just to fill up space since copy isn\'t ready. ',
+                            Text(
+                              'This is just to fill up space since copy isn\'t ready. ',
                               style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                height: 12/20
-                              ),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  height: 12 / 20),
                             ),
                           ],
                         )

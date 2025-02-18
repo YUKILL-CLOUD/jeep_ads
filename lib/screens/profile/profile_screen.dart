@@ -9,14 +9,12 @@ class UserProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(120),
-        child: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          flexibleSpace: Container(
+    return Container(
+      color: Colors.white,
+      child: Column(
+        children: [
+          Container(
+            height: 120,
             padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
             child: Row(
               children: [
@@ -35,11 +33,11 @@ class UserProfilePage extends StatelessWidget {
                   child: const CircleAvatar(
                     radius: 40,
                     backgroundColor: Colors.white,
-                    child: Icon(Icons.person, color: Color(0xFFFFA500), size: 45),
+                    child:
+                        Icon(Icons.person, color: Color(0xFFFFA500), size: 45),
                   ),
                 ),
                 const SizedBox(width: 16),
-
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -52,9 +50,9 @@ class UserProfilePage extends StatelessWidget {
                         color: Colors.black54,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4),
                     Text(
-                      'Cedrick Sabrine!', // Replace with actual user name
+                      'Cedrick Sabrine!',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w600,
@@ -66,65 +64,67 @@ class UserProfilePage extends StatelessWidget {
               ],
             ),
           ),
-        ),
-      ),
-      body: Container(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _buildMenuItem(
-              icon: Icons.person_outline,
-              title: 'Account',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AccountScreen(),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildMenuItem(
+                    icon: Icons.person_outline,
+                    title: 'Account',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AccountScreen(),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-            _buildMenuItem(
-              icon: Icons.notifications_outlined,
-              title: 'Notifications',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const NotificationsScreen(),
+                  _buildMenuItem(
+                    icon: Icons.notifications_outlined,
+                    title: 'Notifications',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const NotificationsScreen(),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-            _buildMenuItem(
-              icon: Icons.help_outline,
-              title: 'Help & Support',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HelpSupportScreen(),
+                  _buildMenuItem(
+                    icon: Icons.help_outline,
+                    title: 'Help & Support',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HelpSupportScreen(),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-            _buildMenuItem(
-              icon: Icons.info_outline,
-              title: 'About',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AboutScreen(),
+                  _buildMenuItem(
+                    icon: Icons.info_outline,
+                    title: 'About',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AboutScreen(),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
+                  const SizedBox(height: 32),
+                  _buildSignOutButton(context),
+                ],
+              ),
             ),
-            const SizedBox(height: 32),
-            _buildSignOutButton(context),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -166,7 +166,6 @@ class UserProfilePage extends StatelessWidget {
               ),
             ),
             const Spacer(),
-          
           ],
         ),
       ),
